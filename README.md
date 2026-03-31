@@ -8,8 +8,8 @@
 
 이 모듈을 사용하려면 **아이리스 봇**이 설치되어 있어야 합니다.
 
-- [irispy-client](https://pypi.org/project/irispy-client) 설치 필요
-- [아이리스 서버](https://github.com/iris-server) 실행 중이어야 함
+- [iris봇 개발자 깃허브] https://github.com/dolidolih
+- [iris봇 유튜브 가이드] https://www.youtube.com/@dolidolih
 
 ```bash
 pip install irispy-client httpx python-dotenv
