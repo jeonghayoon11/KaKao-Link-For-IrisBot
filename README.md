@@ -1,153 +1,134 @@
-# Syntax Bot
+# kakaolink-for-iris
 
-카카오톡 오픈채팅용 다기능 아이리스 봇입니다.  
-입퇴장 감지, AI 대화, 타자 게임, 코인/주식 시세, 카카오링크 전송 등 다양한 기능을 제공합니다.
+아이리스 봇에서 카카오링크를 전송할 수 있는 모듈입니다.
 
 ---
 
-## 📁 폴더 구조
+## 📋 요구사항
+
+이 모듈을 사용하려면 **아이리스 봇**이 설치되어 있어야 합니다.
+
+- [irispy-client](https://pypi.org/project/irispy-client) 설치 필요
+- [아이리스 서버](https://github.com/iris-server) 실행 중이어야 함
+
+```bash
+pip install irispy-client httpx python-dotenv
+```
+
+---
+
+## 📁 파일 구조
 
 ```
-iris_bot/
-├── bots/               # 기능별 봇 모듈
-│   ├── coin.py
-│   ├── lyrics.py
-│   ├── replyphoto.py
-│   ├── stock.py
-│   └── ...
-├── helper/             # 공통 유틸리티
-│   ├── BanControl.py
-│   ├── KakaoLinkModule.py   # 카카오링크 전송 모듈
-│   └── __init__.py
-├── .env                # 환경변수 (직접 생성, 커밋 금지)
-├── .env.example        # 환경변수 예시
-├── irispy.py           # 메인 봇 실행 파일
-└── requirements.txt
+helper/
+└── KakaoLinkModule.py   # 카카오링크 전송 모듈
 ```
 
 ---
 
 ## ⚙️ 설치 방법
 
-### 1. 의존성 설치
-
-```bash
-pip install -r requirements.txt
-```
-
-### 2. 환경변수 설정
-
-```bash
-cp .env.example .env
-```
-
-`.env` 파일을 열어 값을 채워주세요. 자세한 내용은 아래 **환경변수 설정** 섹션을 참고하세요.
-
-### 3. 봇 실행
-
-```bash
-python irispy.py 127.0.0.1:3000
-```
+`KakaoLinkModule.py` 를 본인 봇 프로젝트의 `helper/` 폴더에 넣으면 됩니다.
 
 ---
 
-## 🔑 환경변수 설정 (.env)
+## 🔑 환경변수 설정
 
-`.env.example`을 복사해서 `.env`로 만든 뒤 아래 값을 채워주세요.
+봇 폴더에 `.env` 파일을 만들고 아래 내용을 작성하세요.
 
-| 변수명 | 설명 | 예시 |
-|---|---|---|
-| `KAKAO_APP_KEY` | 카카오 JavaScript 앱키 | `4c4918f5...` |
-| `KAKAO_ORIGIN` | 카카오 플랫폼에 등록한 Web 도메인 | `http://localhost:3000` |
+```env
+KAKAO_APP_KEY=여기에_JavaScript_앱키_입력
+KAKAO_ORIGIN=http://localhost:3000
+```
+
+> ⚠️ `.env` 파일은 절대 깃허브에 올리지 마세요.
 
 ---
 
-## 📮 카카오링크 설정 가이드
+## 📮 카카오 개발자 콘솔 설정
 
-카카오링크 기능을 사용하려면 **카카오 개발자 콘솔**에서 앱을 설정해야 합니다.
-
-### 1단계 — 카카오 앱 생성
+### 1단계 — 앱 생성
 
 1. [카카오 개발자 콘솔](https://developers.kakao.com) 접속 및 로그인
-2. **내 애플리케이션** → **애플리케이션 추가하기** 클릭
-3. 앱 이름과 회사명(아무거나 가능) 입력 후 저장
+2. **내 애플리케이션** → **애플리케이션 추가하기**
+3. 앱 이름, 회사명 입력 후 저장 (아무거나 가능)
 
-### 2단계 — 앱키 확인
+### 2단계 — JavaScript 앱키 확인
 
 1. 생성된 앱 클릭
-2. 좌측 메뉴 **앱 키** 탭 클릭
+2. 좌측 **앱 키** 탭
 3. **JavaScript 키** 복사 → `.env`의 `KAKAO_APP_KEY`에 붙여넣기
 
 ### 3단계 — Web 플랫폼 등록
 
-1. 좌측 메뉴 **플랫폼** 클릭
+1. 좌측 **플랫폼** 탭
 2. **Web 플랫폼 등록** 클릭
 3. 사이트 도메인에 `http://localhost:3000` 입력 후 저장
-4. `.env`의 `KAKAO_ORIGIN`에도 동일하게 입력
+4. `.env`의 `KAKAO_ORIGIN`도 동일하게 입력
 
 ### 4단계 — 메시지 템플릿 만들기
 
-1. 좌측 메뉴 **메시지 템플릿** 클릭
+1. 좌측 **메시지 템플릿** 탭
 2. **템플릿 만들기** 클릭
-3. 원하는 형식으로 템플릿 작성 후 저장
+3. 원하는 형식으로 작성 후 저장
 4. 템플릿 목록에서 **템플릿 ID** (숫자) 확인
 
 ---
 
-## 💬 명령어 목록
+## 💻 사용 방법
 
-### 카카오링크
+### irispy.py 에 추가할 코드
 
-| 명령어 | 설명 | 권한 |
-|---|---|---|
-| `!카카오링크 [채팅방이름] [템플릿ID]` | 지정한 채팅방에 카카오링크 전송 | 관리자 |
-
-**사용 예시:**
+**① 상단 import**
+```python
+from dotenv import load_dotenv
+load_dotenv()
+from helper.KakaoLinkModule import KakaoLink
 ```
-!카카오링크 공지방 12345
+
+**② KakaoLink 초기화**
+```python
+kl = None
+try:
+    _kl_app_key = os.environ.get("KAKAO_APP_KEY", "")
+    _kl_origin  = os.environ.get("KAKAO_ORIGIN", "")
+    if _kl_app_key and _kl_origin:
+        kl = KakaoLink(
+            iris_url=sys.argv[1],
+            default_app_key=_kl_app_key,
+            default_origin=_kl_origin,
+        )
+        print("✅ [KakaoLink] 초기화 완료")
+    else:
+        print("⚠️ [KakaoLink] .env 미설정")
+except Exception as e:
+    print(f"⚠️ [KakaoLink] 초기화 실패: {e}")
 ```
-→ 카카오톡 "공지방" 채팅방에 템플릿 ID 12345번 링크를 전송합니다.
 
-### 기본 기능
+**③ 전송 예시**
+```python
+import asyncio
 
-| 명령어 | 설명 |
-|---|---|
-| `!가이드` | 전체 명령어 목록 |
-| `!서버상태` | 봇 서버 상태 확인 |
-| `!봇상태` | 배터리·램·업타임 확인 |
-| `!뉴스` | 네이버 실시간 속보 |
-| `!날씨 [지역]` | 날씨 조회 |
-| `!ai [질문]` | AI 질문 답변 |
-| `!대화시작` | 1:1 AI 대화 세션 시작 |
-| `!타자게임` | 타자 게임 |
-| `!워들` | 5글자 영단어 맞추기 게임 |
-| `!코인 [코인명]` | 코인 시세 조회 |
-| `!주식 [종목]` | 주식 시세 조회 |
-| `!출석` | 출석 체크 |
+# 카카오링크 전송
+asyncio.run(kl.send(
+    receiver_name="채팅방 이름",   # 전송할 카카오톡 채팅방 이름
+    template_id=12345,            # 카카오 템플릿 ID
+    template_args={},             # 템플릿 변수 (없으면 빈 dict)
+))
+```
 
-### 관리자 전용
-
-| 명령어 | 설명 |
-|---|---|
-| `!봇사용on/off` | 방별 봇 활성화/비활성화 (서버관리자) |
-| `!관리자등록` | 일반 관리자 등록 |
-| `!서버관리자등록` | 서버 관리자 등록 |
-| `!ban` | 유저 차단 |
-| `!unban` | 유저 차단 해제 |
-| `!공지 [내용]` | 공지 전송 |
-| `!재시작` | 봇 재시작 |
+특정 채팅방 타입만 검색하고 싶을 때:
+```python
+asyncio.run(kl.send(
+    receiver_name="채팅방 이름",
+    template_id=12345,
+    template_args={},
+    search_room_type="MultiChat",   # OpenMultiChat / MultiChat / DirectChat / ALL
+))
+```
 
 ---
 
-## 📦 사용 라이브러리
+## 📦 크레딧
 
-- [irispy-client](https://pypi.org/project/irispy-client) — 아이리스 봇 클라이언트
-- [kakaolink-py](https://github.com/ye-seola/kakaolink-py) — 카카오링크 전송 (KakaoLinkModule 기반)
-- httpx, requests, beautifulsoup4, Pillow, python-dotenv
-
----
-
-## ⚠️ 주의사항
-
-- `.env` 파일은 절대 깃허브에 올리지 마세요. (`.gitignore`에 포함되어 있음)
-- 카카오 앱키가 외부에 노출되면 즉시 재발급 받으세요.
+- 카카오링크 원본 모듈: [kakaolink-py](https://github.com/ye-seola/kakaolink-py) by @ye-seola
