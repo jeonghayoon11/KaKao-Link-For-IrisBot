@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 요구사항
+## 요구사항
 
 이 모듈을 사용하려면 **아이리스 봇**이 설치되어 있어야 합니다.
 
@@ -17,7 +17,7 @@ pip install irispy-client httpx python-dotenv
 
 ---
 
-## 📁 파일 구조
+## 파일 구조
 
 ```
 helper/
@@ -26,13 +26,13 @@ helper/
 
 ---
 
-## ⚙️ 설치 방법
+## 설치 방법
 
 `KakaoLinkModule.py` 를 본인 봇 프로젝트의 `helper/` 폴더에 넣으면 됩니다.
 
 ---
 
-## 🔑 환경변수 설정
+## 환경변수 설정
 
 봇 폴더에 `.env` 파일을 만들고 아래 내용을 작성하세요.
 
@@ -41,11 +41,11 @@ KAKAO_APP_KEY=여기에_JavaScript_앱키_입력
 KAKAO_ORIGIN=http://localhost:3000
 ```
 
-> ⚠️ `.env` 파일은 절대 깃허브에 올리지 마세요.
+
 
 ---
 
-## 📮 카카오 개발자 콘솔 설정
+## 카카오 개발자 콘솔 설정
 
 ### 1단계 — 앱 생성
 
@@ -75,7 +75,7 @@ KAKAO_ORIGIN=http://localhost:3000
 
 ---
 
-## 💻 사용 방법
+## 사용 방법
 
 ### irispy.py 에 추가할 코드
 
@@ -129,6 +129,6 @@ asyncio.run(kl.send(
 
 ---
 
-## 📦 크레딧
+## 크레딧
 
 - 카카오링크 원본 모듈: [kakaolink-py](https://github.com/ye-seola/kakaolink-py) by @ye-seola
